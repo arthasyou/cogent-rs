@@ -6,15 +6,15 @@ use std::collections::HashMap;
 
 #[tokio::main]
 async fn main() {
-    let llm = LLM;
+    let llm = LLM::default();
     let memory = Memory::default();
 
     let mut agent = ToolCallAgent {
         name: "TestAgent".to_string(),
         memory,
-        llm,
         state: AgentState::Idle,
         tools: HashMap::new(),
+        llm,
     };
 
     let output = agent

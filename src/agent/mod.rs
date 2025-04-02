@@ -1,5 +1,7 @@
 use async_trait::async_trait;
 
+use crate::types::Message;
+
 pub mod tool_call_agent;
 
 #[derive(Debug, Clone, PartialEq)]
@@ -8,19 +10,6 @@ pub enum AgentState {
     Running,
     Finished,
     Error,
-}
-
-#[derive(Debug, Clone)]
-pub enum Role {
-    User,
-    Assistant,
-    System,
-}
-
-#[derive(Debug, Clone)]
-pub struct Message {
-    pub role: Role,
-    pub content: String,
 }
 
 #[derive(Debug, Default)]
@@ -34,7 +23,7 @@ impl Memory {
     }
 
     pub fn last_content(&self) -> Option<String> {
-        self.messages.last().map(|m| m.content.clone())
+        self.messages.last().and_then(|m| m.content.clone())
     }
 }
 

@@ -1,7 +1,10 @@
 use async_trait::async_trait;
 
-use super::{Agent, AgentState, Memory, Message, Role};
-use crate::llm::LLM;
+use super::{Agent, AgentState, Memory};
+use crate::{
+    llm::LLM,
+    types::{Message, Role},
+};
 use std::collections::HashMap;
 
 pub struct ToolCallAgent {
@@ -15,10 +18,27 @@ pub struct ToolCallAgent {
 #[async_trait]
 impl Agent for ToolCallAgent {
     async fn think(&mut self) -> bool {
-        let response = self.llm.ask(&self.memory.messages).await;
+        let response = self
+            .llm
+            .ask(self.memory.messages.clone(), None, false)
+            .await
+            .unwrap_or_else(|_| "Error".into());
+        println!("==============LLM response===========: {}", response);
         self.memory.add_message(Message {
             role: Role::Assistant,
-            content: response.clone(),
+            content: Some(response.clone()),
+            // TODO: Handle base64_image if response includes an image
+            base64_image: None,
+            // TODO: Handle audio_file if response includes audio
+            audio_file: None,
+            // TODO: Handle asr_text if response includes ASR text
+            asr_text: None,
+            // TODO: Handle name if response includes a name
+            name: None,
+            // TODO: Handle tool_call_id if response includes a tool call ID
+            tool_call_id: None,
+            // TODO: Handle tool_calls if response includes tool calls
+            tool_calls: None,
         });
 
         response.contains("use tool")
@@ -33,7 +53,13 @@ impl Agent for ToolCallAgent {
         if let Some(input) = request {
             self.memory.add_message(Message {
                 role: Role::User,
-                content: input,
+                content: Some(input),
+                base64_image: None,
+                audio_file: None,
+                asr_text: None,
+                name: None,
+                tool_call_id: None,
+                tool_calls: None,
             });
         }
 
