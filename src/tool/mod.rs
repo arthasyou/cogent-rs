@@ -1,10 +1,10 @@
 pub mod builtin;
-pub mod tool_cellection;
+pub mod tool_collection;
 
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-pub use tool_cellection::ToolCollection;
+pub use tool_collection::ToolCollection;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ToolParam {
