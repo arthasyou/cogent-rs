@@ -23,7 +23,6 @@ impl Agent for ToolCallAgent {
             .ask(self.memory.messages.clone(), None, false)
             .await
             .unwrap_or_else(|_| "Error".into());
-        println!("==============LLM response===========: {}", response);
         self.memory.add_message(Message {
             role: Role::Assistant,
             content: Some(response.clone()),
