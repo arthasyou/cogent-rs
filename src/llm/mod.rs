@@ -1,10 +1,11 @@
 mod provider;
 
-use crate::error::Result;
-use crate::types::Message;
+use std::sync::{Arc, Mutex};
+
 use provider::{LLMProvider, OllamaProvider};
 use serde_json::Value;
-use std::sync::{Arc, Mutex};
+
+use crate::{error::Result, types::Message};
 
 // Core Config
 pub struct LLMConfig {

@@ -1,9 +1,12 @@
-use super::LLMProvider;
-use crate::error::{Error, Result};
-use crate::types::Message;
 use async_trait::async_trait;
 use reqwest::Client;
 use serde_json::{Value, json};
+
+use super::LLMProvider;
+use crate::{
+    error::{Error, Result},
+    types::Message,
+};
 
 pub struct OllamaProvider {
     client: Client,

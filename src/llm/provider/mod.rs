@@ -1,11 +1,9 @@
 pub mod ollama_provider;
-pub use ollama_provider::OllamaProvider;
-
 use async_trait::async_trait;
+pub use ollama_provider::OllamaProvider;
 use serde_json::Value;
 
-use crate::error::Result;
-use crate::types::Message;
+use crate::{error::Result, types::Message};
 
 #[async_trait]
 pub trait LLMProvider: Send + Sync {

@@ -1,5 +1,6 @@
-use super::Role;
 use serde::{Deserialize, Serialize};
+
+use super::Role;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Function {

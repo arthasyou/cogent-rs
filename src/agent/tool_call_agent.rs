@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use async_trait::async_trait;
 
 use super::{Agent, AgentState, Memory};
@@ -5,7 +7,6 @@ use crate::{
     llm::LLM,
     types::{Message, Role},
 };
-use std::collections::HashMap;
 
 pub struct ToolCallAgent {
     pub name: String,
@@ -64,7 +65,7 @@ impl Agent for ToolCallAgent {
 
         let mut results = vec![];
 
-        for i in 0..10 {
+        for i in 0 .. 10 {
             let res = self.step().await;
             results.push(format!("Step {}: {}", i + 1, res));
             if res.contains("Executed") {
