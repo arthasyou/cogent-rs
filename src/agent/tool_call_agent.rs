@@ -1,10 +1,9 @@
-use std::collections::HashMap;
-
 use async_trait::async_trait;
 
 use super::{Agent, AgentState, Memory};
 use crate::{
     llm::LLM,
+    tool::ToolCollection,
     types::{Message, Role},
 };
 
@@ -13,7 +12,7 @@ pub struct ToolCallAgent {
     pub memory: Memory,
     pub llm: LLM,
     pub state: AgentState,
-    pub tools: HashMap<String, fn(HashMap<String, String>) -> String>,
+    pub tools: ToolCollection,
 }
 
 #[async_trait]
@@ -24,20 +23,15 @@ impl Agent for ToolCallAgent {
             .ask(self.memory.messages.clone(), None, false)
             .await
             .unwrap_or_else(|_| "Error".into());
+
         self.memory.add_message(Message {
             role: Role::Assistant,
             content: Some(response.clone()),
-            // TODO: Handle base64_image if response includes an image
             base64_image: None,
-            // TODO: Handle audio_file if response includes audio
             audio_file: None,
-            // TODO: Handle asr_text if response includes ASR text
             asr_text: None,
-            // TODO: Handle name if response includes a name
             name: None,
-            // TODO: Handle tool_call_id if response includes a tool call ID
             tool_call_id: None,
-            // TODO: Handle tool_calls if response includes tool calls
             tool_calls: None,
         });
 
@@ -45,7 +39,7 @@ impl Agent for ToolCallAgent {
     }
 
     async fn act(&mut self) -> String {
-        // tool 调用逻辑
+        // TODO: 解析 tool_call 请求，调用 self.tools.execute(name, args)
         "Executed tool".into()
     }
 

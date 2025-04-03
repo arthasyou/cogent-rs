@@ -4,6 +4,7 @@ pub mod tool_cellection;
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
+pub use tool_cellection::ToolCollection;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ToolParam {
