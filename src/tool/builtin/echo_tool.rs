@@ -1,7 +1,7 @@
 use async_trait::async_trait;
 use serde_json::Value;
 
-use super::{Tool, ToolResult};
+use crate::tool::{Tool, ToolResult};
 
 pub struct EchoTool;
 
